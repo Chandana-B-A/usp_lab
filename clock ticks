@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<unistd.h>
+#include<limits.h>
+
+int main()
+{
+
+    //no of clock ticks
+    printf("Maximum no. of clock ticks per second : %ld\n", sysconf(_SC_CLK_TCK));
+    
+    // no of child processes
+    printf("Maximum no. of child processes: %ld\n", sysconf(_SC_CHILD_MAX));
+    
+    //path length
+    printf("Maximum path length: %ld\n", pathconf("/",_PC_PATH_MAX));
+    
+    //no of characters
+    printf("Maximum no. of characters in a filename: %ld\n", pathconf("/",_PC_NAME_MAX));
+    
+    //no of open files
+    printf("Maximum no. of open files per process: %ld\n", sysconf(_SC_OPEN_MAX));
+    
+    //retrieving the hostname, cwd and pagesize
+    printf("System's pagesize: %ld bytes", sysconf(_SC_PAGESIZE));
+    
+    char hostname[HOST_NAME_MAX];
+    if(gethostname(hostname, HOST_NAME_MAX) == 0)
+        printf("\nSystem Hostname: %s\n", hostname);
+    else
+        perror("gethostname");
+
+    
+    char cwd[PATH_MAX];
+    if(getcwd(cwd, sizeof(cwd))!=NULL)
+        printf("\nCurrent working directory: %s", cwd);
+    else
+        perror("getcwd");
+        
+    return 0;
+}
